@@ -1,0 +1,9 @@
+|                     |     forward     |    backward     |     forward     |    backward     |  num params     | num trainable params     |
+|-------------------------------------------------------------------------------------------------------------------------|
+| fasterkan-gpu           |     0.74 ms     |     1.13 ms     |     0.03 GB     |     0.03 GB     |      408242     |               408224     |
+| fastkanorg-gpu          |     0.98 ms     |     1.51 ms     |     0.02 GB     |     0.03 GB     |      459130     |               459114     |
+| mlp-gpu                 |     0.34 ms     |     0.81 ms     |     0.02 GB     |     0.02 GB     |      407050     |               407050     |
+| effkan-gpu              |     2.93 ms     |     2.54 ms     |     0.03 GB     |     0.02 GB     |      508160     |               508160     |
+| kalnet-gpu              |     1.72 ms     |     2.32 ms     |     0.08 GB     |     0.08 GB     |      254228     |               254228     |
+| kanvolve-gpu            |     1.42 ms     |     2.58 ms     |     0.10 GB     |     0.10 GB     |      409064     |               409064     |
+| fasterkanvolver-gpu     |     4.04 ms     |     7.05 ms     |     0.27 GB     |     0.26 GB     |     1213907     |              1213889     |
