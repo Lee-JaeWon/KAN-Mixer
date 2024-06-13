@@ -16,6 +16,7 @@ dependencies:
     - scikit-learn
     - torchsummary
     - optuna
+    - matplotlib
 
 
 # conda env create --file environment.yml
