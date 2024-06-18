@@ -15,8 +15,13 @@ conda activate kanmixer
 ```
 
 ## Train
+For `CIFAR100`
 ```
 python train_cifar100_kanmixer.py
+```
+For `CIFAR10`
+```
+python train_cifar10_kanmixer.py
 ```
 
 ## Acknowledgement
