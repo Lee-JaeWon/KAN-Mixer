@@ -54,7 +54,7 @@ transform_val = transforms.Compose([
 ])
 
 # Load the full CIFAR-100 dataset
-full_dataset = torchvision.datasets.CIFAR100(
+full_dataset = torchvision.datasets.CIFAR10(
     root="./data", train=True, download=True, transform=transform_train
 )
 batch_size = 32
@@ -70,7 +70,7 @@ val_indices, test_indices = train_test_split(test_val_indices, test_size=test_si
 
 # Create the train, val, and test sets
 trainset = Subset(full_dataset, train_indices)
-val_full_dataset = torchvision.datasets.CIFAR100(
+val_full_dataset = torchvision.datasets.CIFAR10(
     root="./data", train=True, download=True, transform=transform_val
 )
 valset = Subset(val_full_dataset, val_indices)
@@ -108,7 +108,7 @@ print(f"device: {device}")
 # Define models
 input_dim = 3072
 bool_flag = False
-num_classes = 100
+num_classes = 10
 
 model_0 = FasterKAN([input_dim, 1, num_hidden, num_hidden // 2, num_hidden // 4, num_classes], grid_min=-1.2, grid_max=1.2, num_grids=64, exponent=2, inv_denominator=0.5, train_grid=bool_flag, train_inv_denominator=bool_flag).to(device)
 model_1 = MLP(layers=[input_dim, num_hidden * 5, num_classes], device=device)
@@ -122,7 +122,7 @@ input_dim = 32 * 32 * 3  # CIFAR-1
 hidden_dim = 512  # Hidden dimension for KANMixer-S/16
 tokens_kan_dim = 256  # Tokens KAN dimension for KANMixer-S/16
 channels_kan_dim = 2048  # Channels KAN dimension for KANMixer-S/16
-num_classes = 100  # CIFAR-100 has 100 classes
+num_classes = 10  # CIFAR-100 has 100 classes
 num_patches = (32 // 16) * (32 // 16)  # 2x2 = 4 patches
 
 # Create the model and move it to the desired device
@@ -135,7 +135,7 @@ num_patches = (32 // 16) * (32 // 16)  # 2x2 = 4 patches
 hidden_dim = 512  # Hidden dimension for MLP-Mixer-S/16
 tokens_mlp_dim = 256  # Tokens MLP dimension for MLP-Mixer-S/16
 channels_mlp_dim = 2048  # Channels MLP dimension for MLP-Mixer-S/16
-num_classes = 100  # CIFAR-100 has 100 classes
+num_classes = 10  # CIFAR-100 has 100 classes
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model_6 = MLPMixer(input_dim, num_patches, hidden_dim, tokens_mlp_dim, channels_mlp_dim, num_classes).to(device)
 
@@ -239,6 +239,13 @@ for model, model_name in zip(models, model_names):
         with open(f'results_cifar{num_classes}.txt', 'a') as f:
             f.write(f"Model: {model_name}, Epoch: {epoch + 1}, Train Loss: {train_loss_epoch}, Train Accuracy: {train_accuracy_epoch}, Val Loss: {val_loss_epoch}, Val Accuracy: {val_accuracy_epoch}\n")
         
+        # # Early stopping
+        # early_stopping(val_loss_epoch)
+        # if early_stopping.early_stop:
+        #     print("Early stopping")
+        #     f.write("Early stopping\n")
+        #     break
+    
     model.eval()
     test_loss_epoch = 0
     test_accuracy_epoch = 0
@@ -277,7 +284,7 @@ import matplotlib.pyplot as plt
 plt.figure(figsize=(10, 6))
 for model_name in model_names:
     plt.plot(loss_trends[model_name]["train_loss"], label=f'{model_name} Train Loss')
-plt.title(f'Combined Training Loss for All Models - CIFAR{num_classes}')
+plt.title('Combined Training Loss for All Models')
 plt.xlabel('Epochs')
 plt.ylabel('Training Loss')
 plt.legend()
